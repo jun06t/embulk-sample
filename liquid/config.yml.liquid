@@ -1,0 +1,9 @@
+in:
+  type: mongodb
+  uri: "mongodb://{{env.MONGO_HOST}}:27017/{{env.DB_NAME}}"
+  collection: 'users'
+  query: '{ updatedAt: { $gte: 1 } }'
+  projection: '{ name: 1, updatedAt: 1 }'
+  sort: '{ updatedAt: 1 }'
+out:
+  type: stdout
