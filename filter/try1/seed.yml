@@ -1,0 +1,5 @@
+in:
+  type: file
+  path_prefix: '/Users/a13156/.go/src/github.com/jun06t/embulk-sample/filter/try1/csv/sample_'
+out:
+  type: stdout
