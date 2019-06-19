@@ -1,0 +1,29 @@
+in:
+  type: mongodb
+  uri: "mongodb://{{env.MONGO_HOST}}:27017/{{env.DB_NAME}}"
+  collection: 'users'
+  query: '{ updatedAt: { $gte: 1 } }'
+  projection: '{ name: 1, updatedAt: 1 }'
+  sort: '{ updatedAt: 1 }'
+  json_column_name: record
+filters:
+  - type: expand_json
+    json_column_name: record
+    expanded_columns:
+      - {name: _id, type: string}
+      - {name: name, type: string}
+      - {name: updatedAt, type: long}
+  - type: rename
+    columns:
+      _id: id
+      updatedAt: updated_at
+out:
+  type: bigquery
+  auth_method: json_key
+  json_keyfile: ./key.json
+  project: {{env.GCP_PROJECT}}
+  dataset: {{env.BQ_DATASET}}
+  table: {{env.BQ_TABLE}}
+  auto_create_table: true
+  schema_file: ./schema.json
+
